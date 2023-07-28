@@ -44,7 +44,7 @@
     "@oclif/test": "^2.3.10",
     "@types/chai": "^4",
     "@types/inquirer": "^7.3.2",
-    "@types/lodash": "^4.14.194",
+    "@types/lodash": "^4.14.196",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.18.14",
     "@types/pluralize": "^0.0.29",
