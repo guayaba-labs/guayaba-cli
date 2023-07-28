@@ -38,7 +38,24 @@ export class RestApiDomain implements IDomain {
   }
 
   async createDto(): Promise<void> {
-    //throw new Error("Method not implemented.")
+    const modelDtoPath = path.resolve(this.getPath(), `./dto`)
+
+    if (!fs.existsSync(modelDtoPath)) fs.mkdirSync(modelDtoPath)
+
+    const plainCreateDtoFile = `
+    import { OmitType, PartialType } from "@nestjs/swagger"
+
+    import { ${singular(this.getEntityName().entity)}Model } from "../model/${this.getEntityName().fileName}.model"
+
+    export class ${singular(this.getEntityName().entity)}Dto extends PartialType(
+      OmitType(${singular(this.getEntityName().entity)}Model, ['createdAt', 'updatedAt', 'deletedAt'] as const)
+    ){
+
+      // Additionals
+    }
+    `
+
+    await writeFile(plainCreateDtoFile, path.resolve(modelDtoPath, `./${this.getEntityName().fileName}.dto.ts`))
   }
 
   async createModel(): Promise<void> {
@@ -64,7 +81,21 @@ export class RestApiDomain implements IDomain {
   }
 
   async createRepository(): Promise<void> {
-    //throw new Error("Method not implemented.")
+    const modelRepoPath = path.resolve(this.getPath(), `./repository`)
+
+    if (!fs.existsSync(modelRepoPath)) fs.mkdirSync(modelRepoPath)
+
+
+    const plainCreateRepoInterfaceFile = `
+    import { IBaseRepository } from "@guayaba/core"
+
+    import { ${singular(this.getEntityName().entity)}Model } from "../model/${this.getEntityName().fileName}.model"
+
+    export interface I${singular(this.getEntityName().entity)}Repository extends IBaseRepository<${singular(this.getEntityName().entity)}Model> {
+      //
+    }`
+
+    await writeFile(plainCreateRepoInterfaceFile, path.resolve(modelRepoPath, `./${this.getEntityName().fileName}.interface.ts`))
   }
 
   async invoke(): Promise<void> {
