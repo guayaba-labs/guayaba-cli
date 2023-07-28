@@ -3,10 +3,15 @@ import {
   LoadGuayabaConfigFile,
   config as configCore,
   BuilderFacade,
-  DatabaseFactory
+  DatabaseFactory,
+  singularFileNameByTable
 } from "../core"
+
 import * as fs from "fs"
 import * as path from "path"
+
+import { BuilderConfig } from "../core/builder/types/config-builder.type"
+import { GuayabaMode } from "@guayaba/core"
 
 export class Sync extends Command {
 
@@ -21,21 +26,32 @@ export class Sync extends Command {
 
       if (tables.length === 0) throw new Error("No table(s) in your database!")
 
-      const crudEntitiesPath = path.resolve(configCore.database, `entities`)
 
       for (const table of tables) {
         const tableName = `Sync ${table.tableName} 💣`
 
         ux.action.start(`Start ${tableName}`)
 
-        const folderBySchema = path.resolve(
-          crudEntitiesPath,
-          `${table.schema}`
-        )
+        const urlToMode = config.mode === GuayabaMode.REST_API
+          ? configCore.restApiPath
+          : configCore.graphqlPath
 
-        if (!fs.existsSync(folderBySchema)) fs.mkdirSync(folderBySchema)
+        const pathPrefix = path.resolve(urlToMode, `${table.schema}`)
 
-        const builderFacade = new BuilderFacade(table, Object.assign(config, { path: folderBySchema }))
+        if (!fs.existsSync(pathPrefix)) fs.mkdirSync(pathPrefix)
+
+        const fileName = singularFileNameByTable(table.tableName)
+
+        const pathEntity = path.resolve(pathPrefix, `./${fileName}`)
+
+        if (!fs.existsSync(pathEntity)) fs.mkdirSync(pathEntity)
+
+        const configBuilder: BuilderConfig = {
+          ...config,
+          path: pathPrefix
+        }
+
+        const builderFacade = new BuilderFacade(table, configBuilder)
 
         await builderFacade
           .invoke()
