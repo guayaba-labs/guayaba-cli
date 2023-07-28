@@ -41,7 +41,7 @@
     "typeorm": "^0.3.12"
   },
   "devDependencies": {
-    "@oclif/test": "^2.3.10",
+    "@oclif/test": "^2.4.0",
     "@types/chai": "^4",
     "@types/inquirer": "^7.3.2",
     "@types/lodash": "^4.14.194",
