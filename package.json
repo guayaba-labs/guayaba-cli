@@ -1,15 +1,15 @@
 {
-  "name": "mynewcli",
+  "name": "guayaba-cli",
   "version": "0.0.0",
   "description": "oclif example Hello World CLI",
   "author": "David Miguel Rivero Güite",
   "bin": {
-    "mynewcli": "./bin/run"
+    "guayaba-cli": "./bin/run"
   },
-  "homepage": "https://github.com/guayaba-labs/mynewcli",
+  "homepage": "https://github.com/guayaba-labs/guayaba-cli",
   "license": "MIT",
   "main": "dist/index.js",
-  "repository": "guayaba-labs/mynewcli",
+  "repository": "guayaba-labs/guayaba-cli",
   "files": [
     "/bin",
     "/dist",
@@ -17,29 +17,52 @@
     "/oclif.manifest.json"
   ],
   "dependencies": {
+    "@guayaba/core": "^1.0.0",
+    "@inquirer/checkbox": "^1.0.0",
+    "@inquirer/select": "^1.0.0",
+    "@nestjs/common": "^9.0.0",
+    "@nestjs/core": "^9.0.0",
     "@oclif/core": "^2",
     "@oclif/plugin-help": "^5",
-    "@oclif/plugin-plugins": "^2.4.7"
+    "@oclif/plugin-plugins": "^2.4.7",
+    "change-case": "^4.1.2",
+    "class-transformer": "^0.5.1",
+    "cli-progress": "^3.12.0",
+    "dotenv": "^16.0.3",
+    "inquirer": "^8.1.1",
+    "jsonfile": "^6.1.0",
+    "lodash": "^4.17.21",
+    "no-case": "^3.0.4",
+    "pg": "^8.10.0",
+    "pg-hstore": "^2.3.4",
+    "pluralize": "^8.0.0",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.29.3",
+    "typeorm": "^0.3.12"
   },
   "devDependencies": {
-    "@oclif/test": "^2.4.0",
+    "@oclif/test": "^2.3.10",
     "@types/chai": "^4",
+    "@types/inquirer": "^7.3.2",
+    "@types/lodash": "^4.14.194",
     "@types/mocha": "^9.0.0",
-    "@types/node": "^16.18.39",
+    "@types/node": "^16.18.14",
+    "@types/pluralize": "^0.0.29",
     "chai": "^4",
     "eslint": "^7.32.0",
     "eslint-config-oclif": "^4",
     "eslint-config-oclif-typescript": "^1.0.3",
     "mocha": "^9",
     "oclif": "^3.10.0",
+    "prettier": "2.8.4",
     "shx": "^0.3.3",
     "ts-node": "^10.9.1",
     "tslib": "^2.6.0",
     "typescript": "^4.9.5"
   },
   "oclif": {
-    "bin": "mynewcli",
-    "dirname": "mynewcli",
+    "bin": "guayaba-cli",
+    "dirname": "guayaba-cli",
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
@@ -64,7 +87,7 @@
   "engines": {
     "node": ">=12.0.0"
   },
-  "bugs": "https://github.com/guayaba-labs/mynewcli/issues",
+  "bugs": "https://github.com/guayaba-labs/guayaba-cli/issues",
   "keywords": [
     "oclif"
   ],

@@ -5,10 +5,13 @@
     "module": "commonjs",
     "outDir": "dist",
     "rootDir": "src",
-    "strict": true,
-    "target": "es2019"
+    "strict": false,
+    "target": "es2019",
+    "baseUrl": "./",
+    "esModuleInterop": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true
   },
-  "include": [
-    "src/**/*"
-  ]
+  "include": ["src/**/*"],
+  "exclude": ["apps/**/*", "libs/**/*"]
 }
