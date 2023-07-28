@@ -1,3 +1,7 @@
 export interface IUseCase {
-  writeUseCase(): Promise<void>
+  getPath(): string
+
+  getEntityName(): { entity: string, fileName: string, tableName: string }
+
+  invoke(): Promise<void>
 }

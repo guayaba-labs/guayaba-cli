@@ -36,7 +36,7 @@ export class BuilderFacade {
       const useCase = factory.createUseCase()
 
       await useCase
-        .writeUseCase()
+        .invoke()
 
     } catch (error) {
       console.log('BuilderFacade', error)
