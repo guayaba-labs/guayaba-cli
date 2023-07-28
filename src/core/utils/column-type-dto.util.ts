@@ -11,13 +11,8 @@ export class ColumnTypeDtoUtil {
 
     for (const column of columns) {
 
-      if (column.constraintType === "PRIMARY KEY")
-        continue
-
-      if (column.column === "created_at" || column.column === "updated_at" || column.column === "deleted_at")
-        continue
-
-      //
+      const isPrimary = column.constraintType === "PRIMARY KEY" ? true : false
+      const isExclude = (column.column === "created_at" || column.column === "updated_at" || column.column === "deleted_at") ?? false
 
       const colName = camelCase(column.column)
 
@@ -27,7 +22,8 @@ export class ColumnTypeDtoUtil {
         required: ${!column.isNulleable ? true : false }
       })
       ${column.isNulleable  ? `@IsOptional()`: `@IsNotEmpty()` }
-      ${colName}: ${column.dataType === "USER-DEFINED" ? "string" : columnTypeScript(column)}
+      ${isExclude ? `@Exclude()` : `@Expose()`}
+      ${colName}${column.isNulleable || isPrimary  ? `?`: ``}: ${column.dataType === "USER-DEFINED" ? "string" : columnTypeScript(column)}
       `
 
       columnsStr = [...columnsStr, columnStr]

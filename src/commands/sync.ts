@@ -48,7 +48,7 @@ export class Sync extends Command {
 
         const configBuilder: BuilderConfig = {
           ...config,
-          path: pathPrefix
+          path: pathEntity
         }
 
         const builderFacade = new BuilderFacade(table, configBuilder)

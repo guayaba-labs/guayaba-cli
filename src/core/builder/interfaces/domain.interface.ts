@@ -4,7 +4,7 @@ export interface IDomain {
 
   getEntityName(): { entity: string, fileName: string }
 
-  checkDomainPathFolder(): void
+  checkDomainPathFolder(): Promise<void>
 
   createDto(): Promise<void>
 

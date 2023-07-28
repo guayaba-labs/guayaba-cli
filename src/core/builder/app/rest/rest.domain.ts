@@ -30,7 +30,7 @@ export class RestApiDomain implements IDomain {
   }
 
 
-  checkDomainPathFolder(): void {
+  async checkDomainPathFolder(): Promise<void> {
 
     const pathEntityDomain = this.getPath()
 
@@ -47,9 +47,11 @@ export class RestApiDomain implements IDomain {
 
     if (fs.existsSync(modelPath)) fs.rmSync(modelPath, { recursive: true })
 
+    fs.mkdirSync(modelPath) // create model folder..
+
     const plainCreateModelFile = `
     import { IsNotEmpty, IsOptional } from "class-validator"
-    import { PartialType } from "@nestjs/swagger"
+    import { ApiProperty, PartialType } from "@nestjs/swagger"
     import { BaseInputDto } from "@guayaba/core"
     import { Exclude, Expose } from "class-transformer"
 
@@ -58,7 +60,7 @@ export class RestApiDomain implements IDomain {
       ${ColumnTypeDtoUtil.makeColumns(this.entity.columns).join(" \n")}
     }`
 
-    await writeFile(plainCreateModelFile, path.resolve(plainCreateModelFile, `./${this.getEntityName().fileName}.model.ts`))
+    await writeFile(plainCreateModelFile, path.resolve(modelPath, `./${this.getEntityName().fileName}.model.ts`))
   }
 
   async createRepository(): Promise<void> {
@@ -66,6 +68,8 @@ export class RestApiDomain implements IDomain {
   }
 
   async invoke(): Promise<void> {
+
+    await this.checkDomainPathFolder()
 
     await this.createModel()
 
