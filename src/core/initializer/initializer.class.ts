@@ -86,7 +86,7 @@ export class InitializerFactory {
     ux.action.start(`Installing Required Dependencies ${mode}`)
 
     await execSync('npm i --save class-validator class-transformer @nestjs/config dotenv --legacy-peer-deps')
-    await execSync('npm i --save @guayaba/core --registry http://localhost:4873 --legacy-peer-deps')
+    await execSync('npm i --save @guayaba/core --legacy-peer-deps')
 
     ux.action.stop(`Ok`)
 
