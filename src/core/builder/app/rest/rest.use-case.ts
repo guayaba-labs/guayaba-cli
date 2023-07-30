@@ -44,7 +44,7 @@ export class RestApiUseCase implements IUseCase {
     import { ${singular(this.getEntityName().entity)}Model } from "../domain/model/${this.getEntityName().fileName}.model"
 
     import { I${singular(this.getEntityName().entity)}Repository } from "../domain/repository/${this.getEntityName().fileName}.interface"
-    import { ${provide}_REPOSITORY } from "../infrastructure/database/provider/${this.getEntityName().fileName}.provider"
+    import { ${provide}_REPOSITORY } from "../infrastructure/persistence/provider/${this.getEntityName().fileName}.provider"
 
     @Injectable()
     export class ${singular(this.getEntityName().entity)}UseCase extends UseCase<${singular(this.getEntityName().entity)}Model> {

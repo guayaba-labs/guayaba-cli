@@ -8,6 +8,8 @@ import { writeFile } from "../../../../core/utils/file.util"
 import { ModelEntity } from "../../../database/models/entity.model"
 import { BuilderConfig } from "../../types/config-builder.type"
 import { IInfrastructure } from "../../interfaces/infrastructure/infrastructure.interface"
+import { AbstractPersistenceInfraFactory } from "../../interfaces/infrastructure/persistence/persistence-abstract.factory"
+import { TypeORMPersistenceInfraFactory } from "../../interfaces/infrastructure/persistence/typeorm/typeorm.factory"
 
 export class RestApiInfrastructure implements IInfrastructure {
 
@@ -17,7 +19,6 @@ export class RestApiInfrastructure implements IInfrastructure {
   ) {
 
   }
-
 
   getPath(): string {
     return path.resolve(this.config.path, `./infrastructure`)
@@ -99,12 +100,55 @@ export class RestApiInfrastructure implements IInfrastructure {
     await writeFile(plainCreatePresentationFile, path.resolve(modelPresentationPath, `./${this.getEntityName().fileName}.controller.ts`))
   }
 
-  async createPersistence(): Promise<void> {
-    throw new Error("Method not implemented.");
+  createPersistence(): AbstractPersistenceInfraFactory {
+
+    const persistenceOptions = {
+      typeorm: new TypeORMPersistenceInfraFactory(this.entity, this.config)
+    }
+
+    return persistenceOptions[this.config.ormOptions.orm] as AbstractPersistenceInfraFactory
   }
 
   async createEntityModule(): Promise<void> {
-    throw new Error("Method not implemented.")
+    const pathEntityModule = path.resolve(this.getPath(), `./${this.getEntityName().fileName}.module.ts`)
+
+    if (fs.existsSync(pathEntityModule))return
+
+    const provide = singular(this.getEntityName().tableName.toLocaleUpperCase())
+
+    const plainCreatePresentationFile = `
+    import { Module } from "@nestjs/common"
+    import { DatabaseModule } from "apps/database/database.module"
+    import { ${provide}_REPOSITORY, ${singular(this.getEntityName().entity)}Provider } from "../infrastructure/persistence/provider/${this.getEntityName().fileName}.provider"
+    import { ${singular(this.getEntityName().entity)}Controller } from "../infrastructure/presentation/${this.getEntityName().fileName}.controller"
+    import { ${singular(this.getEntityName().entity)}UseCase } from "../application/${this.getEntityName().fileName}.use-case"
+    import { ${singular(this.getEntityName().entity)}ServiceImpl } from "../infrastructure/persistence/service/${this.getEntityName().fileName}.service"
+
+    @Module({
+      imports: [
+        DatabaseModule
+      ],
+      controllers: [
+        ${singular(this.getEntityName().entity)}Controller
+      ],
+      providers: [
+        ...${singular(this.getEntityName().entity)}Provider,
+        {
+          provide: ${provide}_REPOSITORY,
+          useClass: ${singular(this.getEntityName().entity)}ServiceImpl
+        },
+        ${singular(this.getEntityName().entity)}ServiceImpl,
+        ${singular(this.getEntityName().entity)}UseCase
+      ],
+      exports: [
+        ${singular(this.getEntityName().entity)}ServiceImpl,
+        ...${singular(this.getEntityName().entity)}Provider,
+      ]
+    })
+    export class ${singular(this.getEntityName().entity)}Module {}
+    `
+
+    await writeFile(plainCreatePresentationFile, pathEntityModule)
   }
 
   async invoke(): Promise<void> {
@@ -112,6 +156,15 @@ export class RestApiInfrastructure implements IInfrastructure {
     await this.checkPresentationPathFolder()
 
     await this.createPresentation()
+
+    const persistenceFactory = this.createPersistence()
+
+    const infraPersistenceModel = persistenceFactory.createPersistenceInfraEntity()
+
+    await infraPersistenceModel
+      .invoke()
+
+    await this.createEntityModule()
   }
 
 }

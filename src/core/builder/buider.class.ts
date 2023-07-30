@@ -1,6 +1,6 @@
 import { GuayabaMode } from "@guayaba/core"
 import { ModelEntity } from "../database/models/entity.model"
-import { AbstractFactory } from "./interfaces/abstract-factory.interface"
+import { AbstractNestAppFactory } from "./interfaces/abstract-factory.interface"
 import { BuilderConfig } from "./types/config-builder.type"
 import { RestApiFactory } from "./app/rest/rest-api.factory"
 
@@ -13,12 +13,12 @@ export class BuilderFacade {
     //
   }
 
-  createBuilderFactory(): AbstractFactory {
+  createBuilderFactory(): AbstractNestAppFactory {
     const builderSelection = {
       [GuayabaMode.REST_API]: new RestApiFactory(this.model, this.config)
     }
 
-    return builderSelection[this.config.mode] as AbstractFactory
+    return builderSelection[this.config.mode] as AbstractNestAppFactory
   }
 
   async invoke() {

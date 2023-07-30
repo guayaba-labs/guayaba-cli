@@ -1,3 +1,4 @@
+import { AbstractPersistenceInfraFactory } from "./persistence/persistence-abstract.factory"
 
 export interface IInfrastructure {
   getPath(): string
@@ -8,7 +9,7 @@ export interface IInfrastructure {
 
   createPresentation(): Promise<void>
 
-  createPersistence(): Promise<void>
+  createPersistence(): AbstractPersistenceInfraFactory
 
   createEntityModule(): Promise<void>
 

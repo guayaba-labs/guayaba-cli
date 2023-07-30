@@ -1,14 +1,14 @@
 import { RestApiDomain } from "./rest.domain"
 import { RestApiUseCase } from "./rest.use-case"
 import { ModelEntity } from "../../../../core/database/models/entity.model"
-import { AbstractFactory } from "../../interfaces/abstract-factory.interface"
+import { AbstractNestAppFactory } from "../../interfaces/abstract-factory.interface"
 import { IDomain } from "../../interfaces/domain/domain.interface"
 import { IInfrastructure } from "../../interfaces/infrastructure/infrastructure.interface"
 import { IUseCase } from "../../interfaces/application/use-case.interface"
 import { BuilderConfig } from "../../types/config-builder.type"
 import { RestApiInfrastructure } from "./rest.insfrastructure"
 
-export class RestApiFactory implements AbstractFactory {
+export class RestApiFactory implements AbstractNestAppFactory {
 
   constructor(
     private entity: ModelEntity,
