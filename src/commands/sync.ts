@@ -12,6 +12,7 @@ import * as path from "path"
 
 import { BuilderConfig } from "../core/builder/types/config-builder.type"
 import { GuayabaMode } from "@guayaba/core"
+import { PrefixModuleGenerator } from '../core/builder/other-modules/prefix.module';
 
 export class Sync extends Command {
 
@@ -58,6 +59,12 @@ export class Sync extends Command {
 
         ux.action.stop(`💥`)
       }
+
+      ux.action.start("🚀 Check Modules")
+
+      await PrefixModuleGenerator.generate(config.mode, tables)
+
+      ux.action.stop("💥")
 
       this.exit(0)
     } catch (error) {

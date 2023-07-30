@@ -110,7 +110,7 @@ export class RestApiInfrastructure implements IInfrastructure {
   }
 
   async createEntityModule(): Promise<void> {
-    const pathEntityModule = path.resolve(this.getPath(), `./${this.getEntityName().fileName}.module.ts`)
+    const pathEntityModule = path.resolve(this.config.path, `./${this.getEntityName().fileName}.module.ts`)
 
     if (fs.existsSync(pathEntityModule))return
 
@@ -119,10 +119,10 @@ export class RestApiInfrastructure implements IInfrastructure {
     const plainCreatePresentationFile = `
     import { Module } from "@nestjs/common"
     import { DatabaseModule } from "apps/database/database.module"
-    import { ${provide}_REPOSITORY, ${singular(this.getEntityName().entity)}Provider } from "../infrastructure/persistence/provider/${this.getEntityName().fileName}.provider"
-    import { ${singular(this.getEntityName().entity)}Controller } from "../infrastructure/presentation/${this.getEntityName().fileName}.controller"
-    import { ${singular(this.getEntityName().entity)}UseCase } from "../application/${this.getEntityName().fileName}.use-case"
-    import { ${singular(this.getEntityName().entity)}ServiceImpl } from "../infrastructure/persistence/service/${this.getEntityName().fileName}.service"
+    import { ${provide}_REPOSITORY, ${singular(this.getEntityName().entity)}Provider } from "./infrastructure/persistence/provider/${this.getEntityName().fileName}.provider"
+    import { ${singular(this.getEntityName().entity)}Controller } from "./infrastructure/presentation/${this.getEntityName().fileName}.controller"
+    import { ${singular(this.getEntityName().entity)}UseCase } from "./application/${this.getEntityName().fileName}.use-case"
+    import { ${singular(this.getEntityName().entity)}ServiceImpl } from "./infrastructure/persistence/service/${this.getEntityName().fileName}.service"
 
     @Module({
       imports: [
