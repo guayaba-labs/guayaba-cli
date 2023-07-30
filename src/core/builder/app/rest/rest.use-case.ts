@@ -5,7 +5,7 @@ import { singular } from "pluralize"
 import { singularFileNameByTable } from "../../../../core/utils/pluralize.util"
 import { writeFile } from "../../../../core/utils/file.util"
 
-import { IUseCase } from "../../interfaces/use-case.interface"
+import { IUseCase } from "../../interfaces/application/use-case.interface"
 import { ModelEntity } from "../../../database/models/entity.model"
 import { BuilderConfig } from "../../types/config-builder.type"
 

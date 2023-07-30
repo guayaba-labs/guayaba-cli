@@ -1,10 +1,12 @@
-import { ModelEntity } from "../../../../core/database/models/entity.model"
-import { AbstractFactory } from "../../interfaces/abstract-factory.interface"
-import { IDomain } from "../../interfaces/domain.interface"
-import { IUseCase } from "../../interfaces/use-case.interface"
-import { BuilderConfig } from "../../types/config-builder.type"
 import { RestApiDomain } from "./rest.domain"
 import { RestApiUseCase } from "./rest.use-case"
+import { ModelEntity } from "../../../../core/database/models/entity.model"
+import { AbstractFactory } from "../../interfaces/abstract-factory.interface"
+import { IDomain } from "../../interfaces/domain/domain.interface"
+import { IInfrastructure } from "../../interfaces/infrastructure/infrastructure.interface"
+import { IUseCase } from "../../interfaces/application/use-case.interface"
+import { BuilderConfig } from "../../types/config-builder.type"
+import { RestApiInfrastructure } from "./rest.insfrastructure"
 
 export class RestApiFactory implements AbstractFactory {
 
@@ -21,5 +23,9 @@ export class RestApiFactory implements AbstractFactory {
 
   createUseCase(): IUseCase {
     return new RestApiUseCase(this.entity, this.config)
+  }
+
+  createInfrastructure(): IInfrastructure {
+    return new RestApiInfrastructure(this.entity, this.config)
   }
 }

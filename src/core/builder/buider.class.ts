@@ -38,6 +38,12 @@ export class BuilderFacade {
       await useCase
         .invoke()
 
+      // Infrastructure
+      const infrastructure = factory.createInfrastructure()
+
+      await infrastructure
+        .invoke()
+
     } catch (error) {
       console.log('BuilderFacade', error)
     }
