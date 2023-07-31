@@ -15,10 +15,10 @@ export class ScafoldFMainBootstrapInitializer {
     import { NestFactory } from "@nestjs/core"
     import { ValidationPipe } from "@nestjs/common"
     import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger"
-    import { RestApiModule } from "./app.module"
+    import { RestModule } from "./rest.module"
 
     async function bootstrap() {
-      const app = await NestFactory.create(RestApiModule)
+      const app = await NestFactory.create(RestModule)
 
       app.enableCors({ origin: "*" })
       app.setGlobalPrefix('api')

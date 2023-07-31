@@ -23,10 +23,6 @@ export class InitializerFactory {
 
   static async load(mode) {
 
-    ux.action.start("Create guayaba-cli.json")
-
-    ux.action.stop("OK!")
-
     // create or update nest-cli.json
 
     ux.action.start("Update nest-cli.json")
@@ -86,7 +82,7 @@ export class InitializerFactory {
     ux.action.start(`Installing Required Dependencies ${mode}`)
 
     await execSync('npm i --save class-validator class-transformer @nestjs/config dotenv --legacy-peer-deps')
-    await execSync('npm i --save @guayaba/core --legacy-peer-deps')
+    await execSync('npm i --save @guayaba/core webpack webpack-cli --legacy-peer-deps')
 
     ux.action.stop(`Ok`)
 

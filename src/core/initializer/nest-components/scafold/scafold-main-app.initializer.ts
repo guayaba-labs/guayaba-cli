@@ -25,7 +25,7 @@ export class ScafoldFMainAppModuleInitializer {
       ],
       providers: [],
     })
-    export class RestApiModule {}
+    export class RestModule {}
     `
 
     const mainRestMainGrapHQL = `
@@ -51,6 +51,6 @@ export class ScafoldFMainAppModuleInitializer {
     }
 
 
-    await writeFile(contentMainFile[mode], path.resolve(baseUrl, `./app.module.ts`))
+    await writeFile(contentMainFile[mode], path.resolve(baseUrl, `./rest.module.ts`))
   }
 }
