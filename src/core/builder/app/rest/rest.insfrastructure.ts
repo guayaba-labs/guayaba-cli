@@ -2,6 +2,7 @@ import * as fs from "fs"
 import * as path from "path"
 import * as changeCase from "change-case"
 import { singular } from "pluralize"
+
 import { pluralParamCase, singularFileNameByTable } from "../../../../core/utils/pluralize.util"
 import { writeFile } from "../../../../core/utils/file.util"
 
@@ -43,35 +44,53 @@ export class RestApiInfrastructure implements IInfrastructure {
 
     if (!fs.existsSync(modelPresentationPath)) fs.mkdirSync(modelPresentationPath)
 
+    const auhtMode = {
+      local: "JwtAuthGuard",
+      firebase: "FirebaseAuthGuard"
+    }
+
+    const jwtGuardOption = auhtMode[this.config.authOptions.strategy]
+
     const plainCreatePresentationFile = `
-    import { Body, Controller, Get, Param, Res, ValidationPipe, HttpStatus, Post, Put, Delete, Query } from "@nestjs/common"
     import { Response } from "express"
-    import { PaginationQuery } from "@guayaba/core"
+
+    import { PaginationQuery, ${jwtGuardOption} } from '@guayaba/core';
+    import { ApiBearerAuth, ApiBody, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger"
+    import { Body, Controller, Get, Param, Res, ValidationPipe, HttpStatus, Post, Put, Delete, Query, UseGuards } from "@nestjs/common"
 
     import { ${singular(this.getEntityName().entity)}Dto } from "../../domain/dto/${this.getEntityName().fileName}.dto"
     import { ${singular(this.getEntityName().entity)}UseCase } from "../../application/${this.getEntityName().fileName}.use-case"
 
     @Controller("${pluralParamCase(this.getEntityName().tableName)}")
+    @ApiTags("${pluralParamCase(this.getEntityName().tableName)}")
     export class ${singular(this.getEntityName().entity)}Controller {
 
       constructor(private readonly ${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase: ${singular(this.getEntityName().entity)}UseCase) {}
 
       @Get("/listPage")
+      @UseGuards(${jwtGuardOption})
+      @ApiBearerAuth("access-token")
       async listPage(@Query() pagination: PaginationQuery) {
         return await this.${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase.listPage(pagination)
       }
 
       @Get("/")
+      @UseGuards(${jwtGuardOption})
+      @ApiBearerAuth("access-token")
       async findAll() {
         return await this.${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase.findAll()
       }
 
       @Get("/:id")
+      @UseGuards(${jwtGuardOption})
+      @ApiBearerAuth("access-token")
       async findById(@Param("id") id: number) {
         return await this.${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase.findById(id)
       }
 
       @Post("/create")
+      @UseGuards(${jwtGuardOption})
+      @ApiBearerAuth("access-token")
       async create(@Body(new ValidationPipe) body: ${singular(this.getEntityName().entity)}Dto, @Res() res: Response) {
 
         const result = await this.${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase.create(body)
@@ -80,6 +99,8 @@ export class RestApiInfrastructure implements IInfrastructure {
       }
 
       @Put("/update/:id")
+      @UseGuards(${jwtGuardOption})
+      @ApiBearerAuth("access-token")
       async update(@Param("id") id: number, @Body(new ValidationPipe) body: ${singular(this.getEntityName().entity)}Dto, @Res() res: Response) {
 
         const result = await this.${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase.update(id, body)
@@ -88,6 +109,8 @@ export class RestApiInfrastructure implements IInfrastructure {
       }
 
       @Delete("/remove/:id")
+      @UseGuards(${jwtGuardOption})
+      @ApiBearerAuth("access-token")
       async remove(@Param("id") id: number, @Res() res: Response) {
 
         const result = await this.${changeCase.camelCase(`${singular(this.getEntityName().entity)}`)}UseCase.remove(id)

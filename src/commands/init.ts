@@ -34,9 +34,9 @@ export class Init extends Command {
 
       ux.action.stop("OK!")
 
-      const { mode } = await GuayabaFileInitializer.writeGuayabaFile()
+      const { mode, strategy } = await GuayabaFileInitializer.writeGuayabaFile()
 
-      await InitializerFactory.load(mode)
+      await InitializerFactory.load(mode, strategy)
 
       this.exit(0)
     } catch (error: any | string) {

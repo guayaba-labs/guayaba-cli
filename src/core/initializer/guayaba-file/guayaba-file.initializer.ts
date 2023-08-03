@@ -8,7 +8,7 @@ import { GuayabaMode, IAuthOptions, IGuayabaConfig, IOrmOptions } from "@guayaba
 
 export class GuayabaFileInitializer {
 
-  static async writeGuayabaFile(): Promise<{ orm: string, driver: string, mode: string }> {
+  static async writeGuayabaFile(): Promise<{ orm: string, driver: string, mode: string, strategy: string }> {
 
     const selectMode: any = await inquirer.prompt([{
       name: "mode",
@@ -93,7 +93,8 @@ export class GuayabaFileInitializer {
     return {
       orm: orm,
       driver: database,
-      mode: mode
+      mode: mode,
+      strategy: strategy
     }
   }
 }

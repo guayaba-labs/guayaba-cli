@@ -7,19 +7,47 @@ import {
 
 export class ScafoldFMainAppModuleInitializer {
 
-  static async loadMainAppModule(mode: string) {
+  static async loadMainAppModule(mode: string, strategy) {
 
     const baseUrl = path.resolve(configCore.path, `./${mode}/src`)
 
+    const authMode = {
+      local: `
+
+      `,
+      firebase: `
+
+      `
+    }
+
+    const authModeSelect = authMode[strategy]
+
     const mainRestMainApi = `
     import { Module } from "@nestjs/common"
+    import { AuthModule, AuthModeProvider } from "@guayaba/core"
     import { ConfigModule } from "@nestjs/config"
     import { MainModule } from "./modules/main.module"
+    import { DatabaseModule } from "apps/database/database.module"
 
     @Module({
       imports: [
         ConfigModule.forRoot({
           isGlobal: true,
+        }),
+        AuthModule.forRoot({
+          provide: AuthModeProvider.LOCAL,
+          authUserOption: {
+            userFieldId: "userId",
+            userFieldUsername: "username",
+            userClass: null // <-- User Object here
+          },
+          jwtOption: {
+            expireIn: "7 day"
+          }
+        }, {
+          imports: [
+            DatabaseModule
+          ]
         }),
         MainModule
       ],

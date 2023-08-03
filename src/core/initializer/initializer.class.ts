@@ -21,7 +21,7 @@ import { DatabaseModuleInitializer } from './database/database-module.initialize
 
 export class InitializerFactory {
 
-  static async load(mode) {
+  static async load(mode: string, strategy: string) {
 
     // create or update nest-cli.json
 
@@ -73,7 +73,7 @@ export class InitializerFactory {
 
     ux.action.start(`Generate app.module.ts file in ${mode}`)
 
-    await ScafoldFMainAppModuleInitializer.loadMainAppModule(mode)
+    await ScafoldFMainAppModuleInitializer.loadMainAppModule(mode, strategy)
 
     ux.action.stop("OK!")
 
@@ -94,7 +94,7 @@ export class InitializerFactory {
 
     ux.action.start(`Installing Security Dependencies ${mode}`)
 
-    await execSync('npm i --save @nestjs/jwt @nestjs/passport @types/passport-jwt @types/passport-local passport passport-jwt passport-local bcrypt --legacy-peer-deps')
+    await execSync('npm i --save @nestjs/jwt @nestjs/passport @types/passport-jwt @types/passport-local passport passport-jwt jwks-rsa passport-local bcrypt --legacy-peer-deps')
     await execSync('npm i --save-dev @types/bcrypt --legacy-peer-deps')
 
     ux.action.stop(`Ok`)
