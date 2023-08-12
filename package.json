@@ -19,7 +19,7 @@
   "dependencies": {
     "@guayaba/core": "^1.0.0",
     "@inquirer/checkbox": "^1.0.0",
-    "@inquirer/select": "^1.0.0",
+    "@inquirer/select": "^1.2.7",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@oclif/core": "^2",
