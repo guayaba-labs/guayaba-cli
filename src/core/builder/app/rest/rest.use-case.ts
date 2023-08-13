@@ -35,6 +35,10 @@ export class RestApiUseCase implements IUseCase {
 
     if (!fs.existsSync(pathApp)) fs.mkdirSync(pathApp)
 
+    const filePathName = path.resolve(pathApp, `./${this.getEntityName().fileName}.use-case.ts`)
+
+    if (fs.existsSync(filePathName)) return
+
     const provide = singular(this.getEntityName().tableName.toLocaleUpperCase())
 
     const plainUseCase = `
@@ -58,6 +62,6 @@ export class RestApiUseCase implements IUseCase {
     }
     `
 
-    await writeFile(plainUseCase, path.resolve(pathApp, `./${this.getEntityName().fileName}.use-case.ts`))
+    await writeFile(plainUseCase, filePathName)
   }
 }

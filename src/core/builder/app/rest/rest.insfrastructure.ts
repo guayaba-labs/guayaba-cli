@@ -44,6 +44,10 @@ export class RestApiInfrastructure implements IInfrastructure {
 
     if (!fs.existsSync(modelPresentationPath)) fs.mkdirSync(modelPresentationPath)
 
+    const filePathName = path.resolve(modelPresentationPath, `./${this.getEntityName().fileName}.controller.ts`)
+
+    if (fs.existsSync(filePathName)) return
+
     const auhtMode = {
       local: "JwtAuthGuard",
       firebase: "FirebaseAuthGuard"
@@ -120,7 +124,7 @@ export class RestApiInfrastructure implements IInfrastructure {
     }
     `
 
-    await writeFile(plainCreatePresentationFile, path.resolve(modelPresentationPath, `./${this.getEntityName().fileName}.controller.ts`))
+    await writeFile(plainCreatePresentationFile, filePathName)
   }
 
   createPersistence(): AbstractPersistenceInfraFactory {
