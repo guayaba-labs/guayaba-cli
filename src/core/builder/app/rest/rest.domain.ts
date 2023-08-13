@@ -42,6 +42,10 @@ export class RestApiDomain implements IDomain {
 
     if (!fs.existsSync(modelDtoPath)) fs.mkdirSync(modelDtoPath)
 
+    const filePathName = path.resolve(modelDtoPath, `./${this.getEntityName().fileName}.dto.ts`)
+
+    if (fs.existsSync(filePathName)) return
+
     const plainCreateDtoFile = `
     import { OmitType, PartialType } from "@nestjs/swagger"
 
@@ -55,7 +59,7 @@ export class RestApiDomain implements IDomain {
     }
     `
 
-    await writeFile(plainCreateDtoFile, path.resolve(modelDtoPath, `./${this.getEntityName().fileName}.dto.ts`))
+    await writeFile(plainCreateDtoFile, filePathName)
   }
 
   async createModel(): Promise<void> {
@@ -85,6 +89,9 @@ export class RestApiDomain implements IDomain {
 
     if (!fs.existsSync(modelRepoPath)) fs.mkdirSync(modelRepoPath)
 
+    const filePathName = path.resolve(modelRepoPath, `./${this.getEntityName().fileName}.interface.ts`)
+
+    if (fs.existsSync(filePathName)) return
 
     const plainCreateRepoInterfaceFile = `
     import { IBaseRepository } from "@guayaba/core"
@@ -95,7 +102,7 @@ export class RestApiDomain implements IDomain {
       //
     }`
 
-    await writeFile(plainCreateRepoInterfaceFile, path.resolve(modelRepoPath, `./${this.getEntityName().fileName}.interface.ts`))
+    await writeFile(plainCreateRepoInterfaceFile, filePathName)
   }
 
   async invoke(): Promise<void> {

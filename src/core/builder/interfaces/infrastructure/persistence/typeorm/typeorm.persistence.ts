@@ -31,7 +31,7 @@ export class TypeORMPersistenceModel implements IPersistenceModelInfra {
 
     const infraPath = path.resolve(this.config.path, `./infrastructure`)
 
-    return path.resolve(infraPath, `./persistence`)
+    return path.resolve(infraPath, `./outbound`)
   }
 
   getEntityName(): { entity: string; fileName: string, tableName: string } {

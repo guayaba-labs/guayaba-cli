@@ -40,7 +40,7 @@ export class RestApiInfrastructure implements IInfrastructure {
   }
 
   async createPresentation(): Promise<void> {
-    const modelPresentationPath = path.resolve(this.getPath(), `./presentation`)
+    const modelPresentationPath = path.resolve(this.getPath(), `./inbound`)
 
     if (!fs.existsSync(modelPresentationPath)) fs.mkdirSync(modelPresentationPath)
 
@@ -142,10 +142,10 @@ export class RestApiInfrastructure implements IInfrastructure {
     const plainCreatePresentationFile = `
     import { Module } from "@nestjs/common"
     import { DatabaseModule } from "apps/database/database.module"
-    import { ${provide}_REPOSITORY, ${singular(this.getEntityName().entity)}Provider } from "./infrastructure/persistence/provider/${this.getEntityName().fileName}.provider"
-    import { ${singular(this.getEntityName().entity)}Controller } from "./infrastructure/presentation/${this.getEntityName().fileName}.controller"
+    import { ${provide}_REPOSITORY, ${singular(this.getEntityName().entity)}Provider } from "./infrastructure/outbound/provider/${this.getEntityName().fileName}.provider"
+    import { ${singular(this.getEntityName().entity)}Controller } from "./infrastructure/inbound/${this.getEntityName().fileName}.controller"
     import { ${singular(this.getEntityName().entity)}UseCase } from "./application/${this.getEntityName().fileName}.use-case"
-    import { ${singular(this.getEntityName().entity)}ServiceImpl } from "./infrastructure/persistence/service/${this.getEntityName().fileName}.service"
+    import { ${singular(this.getEntityName().entity)}ServiceImpl } from "./infrastructure/outbound/service/${this.getEntityName().fileName}.service"
 
     @Module({
       imports: [

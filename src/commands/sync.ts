@@ -1,4 +1,8 @@
 import { Command, ux } from "@oclif/core"
+import * as fs from "fs"
+import * as path from "path"
+import { GuayabaMode } from "@guayaba/core"
+
 import {
   LoadGuayabaConfigFile,
   config as configCore,
@@ -7,12 +11,9 @@ import {
   singularFileNameByTable
 } from "../core"
 
-import * as fs from "fs"
-import * as path from "path"
 
 import { BuilderConfig } from "../core/builder/types/config-builder.type"
-import { GuayabaMode } from "@guayaba/core"
-import { PrefixModuleGenerator } from '../core/builder/other-modules/prefix.module';
+import { PrefixModuleGenerator } from "../core/builder/other-modules/prefix.module"
 
 export class Sync extends Command {
 

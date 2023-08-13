@@ -11,7 +11,7 @@ export class TypeORMPersistenceInfraFactory implements AbstractPersistenceInfraF
     private entity: ModelEntity,
     private config: BuilderConfig
   ) {
-
+    //
   }
 
   createPersistenceInfraEntity(): IPersistenceModelInfra {
