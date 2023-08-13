@@ -91,7 +91,7 @@ export function PostgreSQLImportsForeignTables(columns: ModelColumn[], entityNam
   return groups.map((r) => {
     const refEntity = pascalCase(r.tableRef)
 
-    return refEntity !== entityName ? `import { ${singular(refEntity)} } from "apps/rest/src/modules/${r.obj.schemaRef}/${singularFileNameByTable(r.tableRef)}/infrastructure/persistence/entity/${singularFileNameByTable(r.tableRef)}.entity"` : ``
+    return refEntity !== entityName ? `import { ${singular(refEntity)} } from "apps/rest/src/modules/${r.obj.schemaRef}/${singularFileNameByTable(r.tableRef)}/infrastructure/outbound/entity/${singularFileNameByTable(r.tableRef)}.entity"` : ``
   })
 }
 
