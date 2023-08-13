@@ -26,6 +26,7 @@ export class ScafoldFMainAppModuleInitializer {
     import { Module } from "@nestjs/common"
     import { AuthModule, AuthModeProvider } from "@guayaba/core"
     import { ConfigModule } from "@nestjs/config"
+    import { UserPayload } from "./config/jwt-auth.config"
     import { MainModule } from "./modules/main.module"
     import { DatabaseModule } from "apps/database/database.module"
 
@@ -39,7 +40,8 @@ export class ScafoldFMainAppModuleInitializer {
           authUserOption: {
             userFieldId: "userId",
             userFieldUsername: "username",
-            userClass: null // <-- User Object here
+            userClass: null, // <-- User Object here
+            userMapperClass: UserPayload
           },
           jwtOption: {
             expireIn: "7 day"
