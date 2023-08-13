@@ -18,6 +18,7 @@ import { ScafoldFMainAppModuleInitializer } from "./nest-components/scafold/scaf
 import { ScafoldEnvFileInitializer } from "./nest-components/scafold/scafold-env-file.initializer"
 import { ScafoldGitIgnoreInitializer } from "./nest-components/scafold/scafold-gitignore.initializer"
 import { DatabaseModuleInitializer } from './database/database-module.initializer'
+import { ScafoldConfigInitializer } from "./nest-components/scafold/scafold-config.initializer"
 
 export class InitializerFactory {
 
@@ -70,6 +71,12 @@ export class InitializerFactory {
     ux.action.stop("OK!")
 
     // create app.module.ts
+
+    ux.action.start(`Generate Config payload JWT User jwt-auth.config.ts in ${mode}`)
+
+    await ScafoldConfigInitializer.loadConfigModule(mode)
+
+    ux.action.stop("OK!")
 
     ux.action.start(`Generate app.module.ts file in ${mode}`)
 
