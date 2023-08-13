@@ -10,12 +10,11 @@ export class ScafoldConfigInitializer {
 
   static async loadConfigModule(mode: string) {
 
-    const baseUrl = path.resolve(configCore.path, `./${mode}/src/modules`)
+    const baseUrl = path.resolve(configCore.path, `./${mode}/src`)
 
     const configPath = path.resolve(baseUrl, `./config`)
 
     fs.mkdirSync(configPath)
-
 
     const mainPayloadUserJwt = `
     import { JWTUserPayload } from "@guayaba/core"
