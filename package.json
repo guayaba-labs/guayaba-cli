@@ -47,7 +47,7 @@
     "@types/lodash": "^4.14.194",
     "@types/mocha": "^9.0.0",
     "@types/node": "^16.18.14",
-    "@types/pluralize": "^0.0.29",
+    "@types/pluralize": "^0.0.31",
     "chai": "^4",
     "eslint": "^7.32.0",
     "eslint-config-oclif": "^4",
